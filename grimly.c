@@ -30,27 +30,53 @@ void		parse_line(t_env *env, char *line)
 	if (env->card_x < 5 || env->card_y < 5)
 		return (err(void));
 	env->card_y = ft_atoi(line);
+	//put in here somewhere the check for muliple reoccuring chars
+}
+
+void		char_check(t_env *env, char c)
+{
+	if (c == env->obst)
+		return (1);
+	if (c == env->empty)
+		return (1);
+	if (c == env->entrance)
+	{
+		env->entrace_cnt++;
+		return (1);
+	}
+	if (c == env->exit)
+	{
+		env->exit_cnt++;
+		return (1);
+	}
+	return (0);
 }
 
 /*
 **here check the map string for valid number of columns, rows, and chars.
 */
 
-int		check_valid_map(t_env *env)
+int			check_valid_map(t_env *env)
 {
-	size_t x;
-	size_t y;
+	size_t	x;
+	size_t	y;
+	char	*map;
 
-	x = -1;
+	map = env->map;
 	y = -1;
-	while ()
+	while (++y < env->card_y)
 	{
-		while ()
+		x = -1;
+		while (++x < (env->card_x - 1))
 		{
-			
+			if (!char_check(env, map[x + (y * env->card_x)]))
+				return (0);
 		}
-
+		if (map[x + (y * x)] != '\n')
+			return (0);
 	}
+	if (env->entrance_cnt != 1 || env->exit_cnt < 1)
+		return (0);
 	return (1);
 }
 
@@ -73,18 +99,20 @@ int		read_card(t_env *env)
 	if (bytes_read != (env->card_x + 1) * (env->card_y))
 		return (0);
 	env->map[(env->card_x + 1) * (env->card_y) + 1] = '\0';
-	if (!check_valid_map(env))
-		return (0);
-
 	return (1);
 }
 
+/*
+**still need to write bfs algorithm
+*/
+
 int		grimly(t_env *env)
 {
-    //first take care of reading
-    if (!read_card(env))
-		return(0);
-    //then parsing and storing
-    // then research algorithms for path finding
+	if (!read_card(env))
+		return (0);
+	if (!check_valid_map(env))
+		return (0);
+	if (!bfs_algo(env))
+		return (0);
 	return (1);
 }

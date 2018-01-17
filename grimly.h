@@ -29,6 +29,21 @@ typedef struct	s_env
 	char		entrance;
 	char		exit;
 	char		*map;
+	int			entrance _cnt;
+	int			exit_cnt;
 }				t_env;
+
+typedef struct		s_map
+{
+	size_t			last_x;
+	size_t			last_y;
+	size_t			curr_x;
+	size_t			curr_y;
+
+	struct s_map	up;
+	struct s_map	left;
+	struct s_map	down;
+	struct s_map	right;
+}				t_map;
 
 #endif
