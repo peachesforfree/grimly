@@ -12,28 +12,35 @@
 
 #include "grimly.h"
 
-void		parse_line(t_env *env, char *line)
+int			parse_line(t_env *env, char *line)
 {
 	size_t	i;
 
 	i = ft_strlen(line);
+	ft_putnbr(i);
+	i--;
 	line[i--] = env->exit;
 	line[i--] = env->entrance;
 	line[i--] = env->fill;
 	line[i--] = env->empty;
 	line[i--] = env->obst;
+	line[i] = '\0';
+	i = 0;
+	if (!ft_isdigit(line[i]))
+		return (0);
+	env->card_y = ft_atoi(&line[i]);
 	while (ft_isdigit(line[i]))
-		i--;
-	env->card_x = ft_atoi(line[i + 1]);
-	if (line[--len] != x)
-		return (err(void));
-	if (env->card_x < 5 || env->card_y < 5)
-		return (err(void));
-	env->card_y = ft_atoi(line);
+		i++;
+	if (line[i] != 'x')
+		return (0);
+	i++;
+	env->card_x = ft_atoi(&line[i]);
 	//put in here somewhere the check for muliple reoccuring chars
+
+	return (1);
 }
 
-void		char_check(t_env *env, char c)
+int		char_check(t_env *env, char c)
 {
 	if (c == env->obst)
 		return (1);
@@ -41,7 +48,7 @@ void		char_check(t_env *env, char c)
 		return (1);
 	if (c == env->entrance)
 	{
-		env->entrace_cnt++;
+		env->entrance_cnt++;
 		return (1);
 	}
 	if (c == env->exit)
@@ -91,10 +98,11 @@ int		read_card(t_env *env)
 	char	*line;
 
 	bytes_read = 0;
-	get_next_line(env->fd, line);
-	parse_line(env, line);
+	get_next_line(env->fd, &line);
+	if (!parse_line(env, line))
+		return (0);
 	env->map = (char*)malloc((env->card_x + 1) * (env->card_y) + 1);
-	env->map[(env->card_x + 1) * (env->card_y) + 1];
+	//env->map[(env->card_x + 1) * (env->card_y) + 1];
 	bytes_read = read(env->fd, env->map, ((env->card_x + 1) * (env->card_y)));
 	if (bytes_read != (env->card_x + 1) * (env->card_y))
 		return (0);
@@ -102,17 +110,13 @@ int		read_card(t_env *env)
 	return (1);
 }
 
-/*
-**still need to write bfs algorithm
-*/
-
 int		grimly(t_env *env)
 {
 	if (!read_card(env))
 		return (0);
-	if (!check_valid_map(env))
-		return (0);
-	if (!bfs_algo(env))
-		return (0);
+	//if (!check_valid_map(env))
+	//	return (0);
+	//if (!bfs_algo(env))
+	//	return (0);
 	return (1);
 }

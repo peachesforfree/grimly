@@ -12,11 +12,22 @@
 
 #include "grimly.h"
 
-void		env_init(void)
+int			err(void)
 {
-	t_env	*temp;
+	ft_putstr("SYNTAX ERR");
+	return (0);
+}
 
-	temp = (t_env*)malloc(sizeof(t_env));
+void		print_map(t_env *env)
+{
+	write(1, &env->map, sizeof(env->map));
+}
+
+t_env		*env_init(void)
+{
+	t_env	*env;
+
+	env = (t_env*)malloc(sizeof(t_env));
 	env->fd = 0;
 	env->card_x = 0;
 	env->card_y = 0;
@@ -27,6 +38,7 @@ void		env_init(void)
 	env->map = NULL;
 	env->entrance_cnt = 0;
 	env->exit_cnt = 0;
+	return(env);
 }
 
 int			main(int argc, char **argv)
@@ -34,18 +46,25 @@ int			main(int argc, char **argv)
 	t_env	*env;
 	int		i;
 
-	i = -1;
+	i = 0;
 	env = env_init();
 	if (argc > 1)
 	{
 		while (++i < argc)
 		{
 			env->fd = open(argv[i], O_RDONLY);
-			if (!grimly(env))
-				return (err(void));
+			{
+				grimly(env);
+				print_map(env);
+			//if (!bfs_algo(env))
+				return (err());
+			}
 		}
 	}
 	else
-		grimly(env);
+	{
+		print_map(env);
+		//bfs_algo(env);
+	}
 	return (0);
 }
