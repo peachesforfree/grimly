@@ -16,8 +16,9 @@
 
 # include <unistd.h>
 # include <stdlib.h>
-# include "libft/includes/libft.h"
+# include "libft/libft.h"
 # include <fcntl.h>
+# include <stdio.h>
 
 typedef struct	s_env
 {
@@ -37,10 +38,11 @@ typedef struct	s_env
 
 typedef struct		s_map
 {
-	int				last_x;
-	int				last_y;
 	int				curr_x;
 	int				curr_y;
+
+	struct s_map	*last;
+	struct s_map	*next;
 
 	struct s_map	*up;
 	struct s_map	*left;

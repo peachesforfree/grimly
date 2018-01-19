@@ -20,7 +20,7 @@ int			err(void)
 
 void		print_map(t_env *env)
 {
-	write(1, &env->map, sizeof(env->map));
+	ft_putstr(env->map);
 }
 
 t_env		*env_init(void)
@@ -45,6 +45,7 @@ int			main(int argc, char **argv)
 {
 	t_env	*env;
 	int		i;
+	char	*test;
 
 	i = 0;
 	env = env_init();
@@ -53,18 +54,21 @@ int			main(int argc, char **argv)
 		while (++i < argc)
 		{
 			env->fd = open(argv[i], O_RDONLY);
+			if (env->fd > 0 && read(env->fd, test, 0) > -1)
 			{
 				grimly(env);
 				print_map(env);
-			//if (!bfs_algo(env))
-				return (err());
+				if (!bfs_algo(env))
+					return (err());
 			}
+			else
+				return (err());
 		}
 	}
 	else
 	{
 		print_map(env);
-		//bfs_algo(env);
+		bfs_algo(env);
 	}
 	return (0);
 }

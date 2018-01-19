@@ -15,15 +15,14 @@
 int			parse_line(t_env *env, char *line)
 {
 	size_t	i;
-
+	
 	i = ft_strlen(line);
-	ft_putnbr(i);
 	i--;
-	line[i--] = env->exit;
-	line[i--] = env->entrance;
-	line[i--] = env->fill;
-	line[i--] = env->empty;
-	line[i--] = env->obst;
+	env->exit = line[i--];
+	env->entrance = line[i--];
+	env->fill = line[i--];
+	env->empty = line[i--];
+	env->obst = line[i];
 	line[i] = '\0';
 	i = 0;
 	if (!ft_isdigit(line[i]))
@@ -36,7 +35,6 @@ int			parse_line(t_env *env, char *line)
 	i++;
 	env->card_x = ft_atoi(&line[i]);
 	//put in here somewhere the check for muliple reoccuring chars
-
 	return (1);
 }
 
