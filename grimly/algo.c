@@ -90,10 +90,11 @@ int			check_loc(t_env *env, int y, int x)
 	return (1);
 }
 
-int			bfs_algo(t_env *env)
+int			ay_star(t_env *env)
 {
 	t_map		*queue;
 	t_map		*end_q;
+	t_map		*temp;
 
 	map_init(env);
 	queue = queue_init(env);
@@ -102,15 +103,46 @@ int			bfs_algo(t_env *env)
 	{
 		if (bound_check((curr->curr_y - 1) , curr->curr_x, env) && check_loc(env, curr->curr_y - 1, curr->curr_x)) // traverse up
 		{
-			
+			temp = map_new();
+			temp->curr_x = curr->curr_x;
+			temp->curr_y = curr->curr_y - 1;
+			temp->last = curr;
+			curr->up = temp;
+			end_q->next = temp;
+			temp = NULL;
+		}
+		if (bound_check((curr->curr_y) , curr->curr_x - 1, env) && check_loc(env, curr->curr_y, curr->curr_x - 1))	//traverse left
+		{
+			temp = map_new();
+			temp->curr_x = curr->curr_x - 1;
+			temp->curr_y = curr->curr_y;
+			temp->last = curr;
+			curr->left = temp;
+			end_q->next = temp;
+			temp = NULL;
+		}
+		if (bound_check((curr->curr_y + 1) , curr->curr_x, env) && check_loc(env, curr->curr_y + 1, curr->curr_x))	//traverse down
+		{
+			temp = map_new();
+			temp->curr_x = curr->curr_x;
+			temp->curr_y = curr->curr_y + 1;
+			temp->last = curr;
+			curr->right = temp;
+			end_q->next = temp;
+			temp = NULL;
 
 		}
-		if (left of curr exists && has not been visited)	//traverse last
-			add to queue 
-		if (down of queue exists && has not been visited)	//traverse down
-			add to queue
-		if (right of curr ecists && has not been visited)	//traverse right
-			add to queue 
+		if (bound_check((curr->curr_y) , curr->curr_x + 1, env) && check_loc(env, curr->curr_y, curr->curr_x + 1))	//traverse right
+		{
+			temp = map_new();
+			temp->curr_x = curr->curr_x + 1;
+			temp->curr_y = curr->curr_y;
+			temp->last = curr;
+			curr->right = temp;
+			end_q->next = temp;
+			temp = NULL;
+		}
+		queue = queue->next;
 	}
 	trace_path(curr);
 	return (1);

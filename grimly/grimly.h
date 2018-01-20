@@ -53,7 +53,7 @@ typedef struct		s_map
 int			main(int argc, char **argv);
 int		grimly(t_env *env);
 int			err(void);
-int		bfs_algo(t_env *env);
+int		ay_star(t_env *env);
 
 
 #endif
