@@ -35,6 +35,7 @@ int			parse_line(t_env *env, char *line)
 	i++;
 	env->card_x = ft_atoi(&line[i]);
 	//put in here somewhere the check for muliple reoccuring chars
+	//another function to check 
 	return (1);
 }
 

@@ -42,7 +42,7 @@ typedef struct		s_map
 	int				curr_y;
 
 	struct s_map	*last;
-	struct s_map	*queue_nxt;
+	struct s_map	*next;
 
 	struct s_map	*up;
 	struct s_map	*left;
@@ -53,7 +53,7 @@ typedef struct		s_map
 int			main(int argc, char **argv);
 int		grimly(t_env *env);
 int			err(void);
-int		ay_star(t_env *env);
+int		bfs_algo(t_env *env);
 
 
 #endif

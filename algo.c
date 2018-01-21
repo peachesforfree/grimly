@@ -54,15 +54,6 @@ t_map	*queue_init(t_env *env)
 	return (temp);
 }
 
-int			check_loc(t_env *env, t_map *curr)
-{
-	if (env->visited_map[x + (env->card_x * y)] == 0 && env->visited_map[x + (env->card_x * y)] != env->obst)
-//check map bounds
-// check visted map
-//check board map
-	return (0);
-}
-
 int			bound_check(int x, int y, t_env *env)
 {
 	if (x < 0)
@@ -83,23 +74,33 @@ int			bound_check(int x, int y, t_env *env)
 
 int			check_loc(t_env *env, int y, int x)
 {
-	if (env->visited_map[x + ( env->card_x * y)] == 1)
+	if (env->visited_map[x + (env->card_x * y)] == 1)
 		return (0);
 	else
-		env->visited_map[x + ( env->card_x * y)] = 1;
+		env->visited_map[x + (env->card_x * y)] = 1;
 	return (1);
 }
 
-int			ay_star(t_env *env)
+void		trace_path(t_map *lst, t_env *env)
+{
+	while (lst->last != NULL)
+	{
+		env->map[lst->curr_x + (lst->curr_y * env->card_x)] = env->obst;
+		lst = lst->last;
+	}
+}
+
+int			bfs_algo(t_env *env)
 {
 	t_map		*queue;
 	t_map		*end_q;
 	t_map		*temp;
+	t_map		*curr;
 
 	map_init(env);
 	queue = queue_init(env);
 	end_q = queue;
-	while (env->map[curr->curr_x + (env->card_x * curr->curr_y)] != env->exit)  
+	while (env->map[curr->curr_x + (env->card_x * curr->curr_y)] != env->exit)
 	{
 		if (bound_check((curr->curr_y - 1) , curr->curr_x, env) && check_loc(env, curr->curr_y - 1, curr->curr_x)) // traverse up
 		{
@@ -109,6 +110,7 @@ int			ay_star(t_env *env)
 			temp->last = curr;
 			curr->up = temp;
 			end_q->next = temp;
+			end_q = temp;
 			temp = NULL;
 		}
 		if (bound_check((curr->curr_y) , curr->curr_x - 1, env) && check_loc(env, curr->curr_y, curr->curr_x - 1))	//traverse left
@@ -119,6 +121,7 @@ int			ay_star(t_env *env)
 			temp->last = curr;
 			curr->left = temp;
 			end_q->next = temp;
+			end_q = temp;
 			temp = NULL;
 		}
 		if (bound_check((curr->curr_y + 1) , curr->curr_x, env) && check_loc(env, curr->curr_y + 1, curr->curr_x))	//traverse down
@@ -129,6 +132,7 @@ int			ay_star(t_env *env)
 			temp->last = curr;
 			curr->right = temp;
 			end_q->next = temp;
+			end_q = temp;
 			temp = NULL;
 
 		}
@@ -140,10 +144,11 @@ int			ay_star(t_env *env)
 			temp->last = curr;
 			curr->right = temp;
 			end_q->next = temp;
+			end_q = temp;
 			temp = NULL;
 		}
-		queue = queue->next;
+		curr = curr->next;
 	}
-	trace_path(curr);
+	trace_path(end_q, env);
 	return (1);
 }
