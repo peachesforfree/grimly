@@ -31,29 +31,23 @@ typedef struct	s_env
 	char		entrance;
 	char		exit;
 	char		*map;
-	char		*visited_map;
+	int			*heat_map;
 	int			entrance_cnt;
 	int			exit_cnt;
 }				t_env;
 
-typedef struct		s_map
+typedef struct	s_map
 {
-	int				curr_x;
-	int				curr_y;
-
-	struct s_map	*last;
-	struct s_map	*next;
-
-	struct s_map	*up;
-	struct s_map	*left;
-	struct s_map	*down;
-	struct s_map	*right;
+	int			*map;
+	int			number;
+	int			x;
+	int			y;
+	int			count;
 }				t_map;
 
-int			main(int argc, char **argv);
-int		grimly(t_env *env);
-int			err(void);
-int		bfs_algo(t_env *env);
-
+int				main(int argc, char **argv);
+int				grimly(t_env *env);
+int				err(void);
+int				heat_map(t_env *env);
 
 #endif

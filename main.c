@@ -48,6 +48,7 @@ int			main(int argc, char **argv)
 	char	*test;
 
 	i = 0;
+	test = ft_strnew('\0');
 	env = env_init();
 	if (argc > 1)
 	{
@@ -58,7 +59,7 @@ int			main(int argc, char **argv)
 			{
 				grimly(env);
 				print_map(env);
-				if (!bfs_algo(env))
+				if (!heat_map(env))
 					return (err());
 			}
 			else
@@ -68,7 +69,7 @@ int			main(int argc, char **argv)
 	else
 	{
 		print_map(env);
-		bfs_algo(env);
+		heat_map(env);
 	}
 	return (0);
 }

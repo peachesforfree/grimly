@@ -64,8 +64,8 @@ int		char_check(t_env *env, char c)
 
 int			check_valid_map(t_env *env)
 {
-	size_t	x;
-	size_t	y;
+	int	x;
+	int	y;
 	char	*map;
 
 	map = env->map;
@@ -93,7 +93,7 @@ int			check_valid_map(t_env *env)
 
 int		read_card(t_env *env)
 {
-	size_t	bytes_read;
+	int	bytes_read;
 	char	*line;
 
 	bytes_read = 0;
